@@ -13,5 +13,5 @@ steps:
     registry: registry.zanelab.com
     repo: registry.zanelab.com/zhala/site
     tags: 
-      - ${DRONE_COMMIT_BRANCH} | tail -c 8
+      - ${DRONE_COMMIT_SHA}
       - latest
