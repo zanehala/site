@@ -16,7 +16,7 @@ steps:
       - ${DRONE_BUILD_NUMBER}
       - latest
 - name: helm-deploy
-  image: alpine/k8s
+  image: alpine/k8s:1.21.13
   environment:
     KUBECONFIGFILE:
       from_secret: kubeconfig
