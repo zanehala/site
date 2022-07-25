@@ -13,5 +13,13 @@ steps:
     registry: registry.zanelab.com
     repo: registry.zanelab.com/zhala/site
     tags: 
-      - ${DRONE_COMMIT_SHA}
+      - ${DRONE_BUILD_NUMBER}
       - latest
+- name: helm-deploy
+  image: alpine/helm
+  environment:
+    KUBECONFIG:
+      from_secret: kubeconfig
+  commands:
+  - export BUILD_ID=${DRONE_BUILD_NUMBER}
+  - helm upgrade site helm/site --set image.tag=$BUILD_ID --install --atomic --reuse-values 
