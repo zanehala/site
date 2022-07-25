@@ -12,4 +12,6 @@ steps:
   settings:
     registry: registry.zanelab.com
     repo: registry.zanelab.com/zhala/site
-    auto_tag: true
+    tags: 
+      - ${DRONE_COMMIT_BRANCH} | tail -c 8
+      - latest
