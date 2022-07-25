@@ -6,6 +6,6 @@ steps:
 - name: build-image
   image: plugins/docker
   settings:
-    registry: registry.zanelab.com
+    registry: registry.zanelab.com/zhala/site
     repo: zhala/site
     tags: latest
