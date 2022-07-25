@@ -1,0 +1,11 @@
+kind: pipeline
+type: kubernetes
+name: default
+
+steps:
+- name: build-image
+  image: plugins/docker
+  settings:
+    registry: registry.zanelab.com
+    repo: zhala/site
+    tags: latest
