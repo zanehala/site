@@ -15,4 +15,4 @@ RUN apk add python3 py3-pip && \
 COPY main.py wsgi.py ./
 COPY --from=build /build/public /public
 
-CMD gunicorn --bind=0.0.0.0 -w 4 wsgi:app
+CMD gunicorn --bind=0.0.0.0 --log-level debug -w 4 wsgi:app
