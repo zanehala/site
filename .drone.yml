@@ -15,13 +15,3 @@ steps:
     tags: 
       - ${DRONE_BUILD_NUMBER}
       - latest
-- name: helm-deploy
-  image: alpine/k8s:1.21.13
-  # environment:
-  #   KUBECONFIGFILE:
-  #     from_secret: kubeconfig
-  commands:
-  # - echo $KUBECONFIGFILE > /tmp/kubeconfig.yaml
-  # - export KUBECONFIG=/tmp/kubeconfig.yaml
-  - export BUILD_ID=${DRONE_BUILD_NUMBER}
-  - helm upgrade site helm/site --set image.tag=$BUILD_ID --install --atomic --reuse-values 

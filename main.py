@@ -1,7 +1,9 @@
-from flask import Flask, render_template
+from flask import Flask, send_from_directory
+from whitenoise import WhiteNoise
 
 app = Flask(__name__)
+app.wsgi_app = WhiteNoise(app.wsgi_app, root="public/", index_file=True)
 
-@app.route("/")
+@app.route("/test")
 def main():
-    return render_template("site.html")
+    return "1234"
