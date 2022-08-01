@@ -3,10 +3,16 @@ type: kubernetes
 name: default
 
 steps:
+- name: submodules
+  image: alpine/git
+  commands:
+  - git submodule update --init --recursive
+
 - name: helm-lint
   image: alpine/helm
   commands:
   - helm lint helm/site
+
 - name: build-image
   image: plugins/docker
   settings:
