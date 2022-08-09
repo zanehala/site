@@ -1,6 +1,6 @@
 baseURL = 'https://site.zanelab.com/'
 languageCode = 'en-us'
-title = 'Zane's Lab'
+title = "Zane's Lab"
 theme = "PaperMod"
 
 [params]
