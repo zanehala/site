@@ -8,7 +8,7 @@ image:
   repository: registry.zanelab.com/zhala/site
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: latest
+  tag: 23
 
 imagePullSecrets: []
 nameOverride: ""
@@ -43,18 +43,21 @@ service:
 ingress:
   enabled: enabled
   className: nginx
-  annotations: {}
-    # kubernetes.io/ingress.class: nginx
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    external-dns.alpha.kubernetes.io/target: "homelab-prod-tunnel.zanelab.com"
+    external-dns.alpha.kubernetes.io/cloudflare-proxied: "true"
+    cert-manager.io/cluster-issuer: letsencrypt-prod
     # kubernetes.io/tls-acme: "true"
   hosts:
-    - host: site.zanelab.com
+    - host: &host site.zanelab.com
       paths:
         - path: /
           pathType: Prefix
-  tls: []
-  #  - secretName: chart-example-tls
-  #    hosts:
-  #      - chart-example.local
+  tls:
+   - secretName: site-tls-certificate
+     hosts:
+       - *host
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious

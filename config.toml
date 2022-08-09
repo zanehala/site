@@ -1,7 +1,7 @@
-baseURL = 'http://site.zanelab.com/'
+baseURL = 'https://site.zanelab.com/'
 languageCode = 'en-us'
-title = 'My New Hugo Site'
+title = 'Zane's Lab'
 theme = "PaperMod"
 
 [params]
-defaultTheme = "dark"
+defaultTheme = "auto"
