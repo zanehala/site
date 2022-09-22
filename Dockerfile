@@ -13,7 +13,7 @@ COPY --from=build /build/wheels .
 RUN apk add python3 py3-pip && \
     pip3 install --no-index *.whl && \
     mkdir /public
-COPY main.py wsgi.py ./
+COPY main.py wsgi.py config.py ./
 COPY --from=build /build/public /public
 RUN chmod 777 -R /public
 
