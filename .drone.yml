@@ -16,6 +16,7 @@ steps:
 - name: build-image
   image: plugins/docker
   settings:
+    mtu: 1440
     registry: registry.zanelab.com
     repo: registry.zanelab.com/zhala/site
     tags: 
