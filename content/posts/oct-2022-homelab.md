@@ -1,6 +1,6 @@
 ---
 title: "State of the Homelab - October 2022"
-date: 2022-10-06T21:01:31-05:00
+date: 2022-10-06
 draft: false
 ---
 
