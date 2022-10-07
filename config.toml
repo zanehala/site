@@ -5,3 +5,13 @@ theme = "PaperMod"
 
 [params]
 defaultTheme = "auto"
+
+[[menu.main]]
+identifier = "about"
+name = "About"
+url = "/about/"
+weight = 10
+
+[[menu.main]]
+name = "github"
+url = "https://github.com/zanehala"
