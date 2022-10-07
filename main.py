@@ -6,8 +6,6 @@ app = Flask(__name__)
 app.wsgi_app = WhiteNoise(app.wsgi_app, root="/public", index_file=True)
 metrics = GunicornInternalPrometheusMetrics(app)
 
-print(request.remote_addr)
-
 @app.route("/test")
 def main():
     return "1234"
