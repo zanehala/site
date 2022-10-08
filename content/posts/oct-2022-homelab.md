@@ -92,17 +92,42 @@ at work.
 I spent a lot of time looking into how I was going to initially provision my machines, most solutions were pretty heavy
 and cumbersome. I eventually found [Khue's homelab repo](https://github.com/khuedoan/homelab) which just spins up a 
 container to handle PXE booting the machines and then uses ansible for the rest. I liked how his repo was laid out 
-and setup so I forked it and used it as the base of my cluster as well. It uses ArgoCD applicationsets and watches
-the repo for any changes, when it detects a change it attempts to reconcile the cluster to match the repo. This gitops
-approach has worked out pretty well so far, however secrets management and the occasional prometheus custom resource
-being too large has made some changes more manual than automated. 
+and setup so I forked it and used it as the base of my cluster as well. 
+
+- It uses ArgoCD applicationsets and watches the repo for any changes, when it detects a change it attempts to reconcile 
+the cluster to match the repo. This gitops approach has worked out pretty well so far, however secrets management and the 
+occasional prometheus custom resource being too large has made some changes more manual than automated.
+
+- Longhorn for distributed storage has been decent. Reads are more or less at disk speed, while writes are somewhat slow
+since it has to wait for a write ack from the other nodes it's replicating the volume to. I primarily use this for smaller
+volumes (1-10GB), I noticed with larger volumes like 20GB+, reconstructing volumes on other nodes can take a long time and
+this can cause a bit of a cascading failure since it uses up a lot of bandwidth.
+
+- TrueNas serves up a NFS store which I use the democratic-csi to drive. I primarily use this for larger volumes like metrics,
+logging and media. On the TrueNas side I've got it configured to use ZSTD as the compression algorithm, which can sometimes get
+me a compression ratio of 2.60+, pretty incredible.
+
+- I use Prometheus, Loki and Grafana for your pretty standard metrics, logging and observability stack. So far I've been a huge fan of
+all three, its been very simple to get metrics and logs out of pretty much everything I've needed. So far my volume of metrics and logs
+has been small enough to handle without having to use something like Thanos or Mimir, but I'll probably mess with 
+them in the future regardless.
+
+- Gitea as my internally hosted git server. I'm a big fan of Gitea and they are always adding great features to it. It integrates well
+with Drone and has been rock solid so far.
+
+- Drone handles CI and building of my personal repos and in my experience so far has been incredibly fast at builds. I initially used
+Tekton which has a large learning curve and is very configuration heavy. Drone on the other hand has been essentially plug and play with
+Gitea and k8s. It is a bit limited feature wise but I really only need it to handle builds for now.
+
+- Trow is my internal docker registry. It works pretty well, but currently is feature limited. I'd like to publicly host some images but
+I'll need something with better permissioning (which trow totally lacks) and some way to limit bandwidth usage.
 
 For a more in depth look at my cluster you can [check out my repo](https://github.com/zanehala/homelab). 
 The readme shows most of the things I run in it.
 
 ## The Future
 At some point I'd like to get a 10GBE switch for the lab. The prices on those have dropped a lot in recent years and
-MikroTik offers to pretty nice 8 port SFT+ switches for < $300. The 7050's however can't handle 10GBE, but the USBC 3.1 
+MikroTik offers some pretty nice 8 port SFT+ switches for < $300. The 7050's however can't handle 10GBE, but the USBC 3.1 
 ports on the front can handle 2.5GBE dongles, which would still be a 150% increase.
 
 I may at some point also put Proxmox on all the 7050's and cluster them together and run Kubernetes on VM's. That way I
