@@ -8,7 +8,7 @@ image:
   repository: registry.zanelab.com/zhala/site
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: 23
+  tag: 41
 
 imagePullSecrets: []
 nameOverride: ""
@@ -23,7 +23,10 @@ serviceAccount:
   # If not set and create is true, a name is generated using the fullname template
   name: ""
 
-podAnnotations: {}
+podAnnotations: 
+  prometheus.io/scrape: "true"
+  prometheus.io/path: "/metrics"
+  prometheus.io/port: "80"
 
 podSecurityContext: {}
   # fsGroup: 2000
@@ -44,10 +47,10 @@ ingress:
   enabled: enabled
   className: nginx
   annotations:
-    kubernetes.io/ingress.class: nginx
     external-dns.alpha.kubernetes.io/target: "homelab-prod-tunnel.zanelab.com"
     external-dns.alpha.kubernetes.io/cloudflare-proxied: "true"
     cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
     # kubernetes.io/tls-acme: "true"
   hosts:
     - host: &host site.zanelab.com
@@ -70,6 +73,14 @@ resources: {}
   # requests:
   #   cpu: 100m
   #   memory: 128Mi
+
+environment:
+  HUGO_ENV: production
+
+podMonitor:
+  enabled: true
+  metricsEndpoints:
+    - port: http
 
 autoscaling:
   enabled: false

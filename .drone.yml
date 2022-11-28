@@ -12,6 +12,7 @@ steps:
   image: alpine/helm
   commands:
   - helm lint helm/site
+  - helm package helm/site
 
 - name: build-image
   image: plugins/docker
@@ -22,3 +23,16 @@ steps:
     tags: 
       - ${DRONE_BUILD_NUMBER}
       - latest
+
+- name: upload-helm-chart
+  image: alpine
+  environment:
+    GITEA_PASSWORD:
+      from_secret: gitea-password
+  commands:
+  - apk add curl
+  - curl --user zhala:$GITEA_PASSWORD -X POST --upload-file ./site-*.tgz https://git.zanelab.com/api/packages/zhala/helm/api/charts
+  when:
+    branch: master
+    event:
+      - push
