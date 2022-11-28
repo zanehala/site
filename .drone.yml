@@ -33,6 +33,7 @@ steps:
   - apk add curl
   - curl --user zhala:$GITEA_PASSWORD -X POST --upload-file ./site-*.tgz https://git.zanelab.com/api/packages/zhala/helm/api/charts
   when:
-    branch: master
+    branch: 
+      - master
     event:
       - push
