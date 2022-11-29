@@ -37,3 +37,22 @@ steps:
       - master
     event:
       - push
+
+- name: update-imaage-tag
+  image: alpine
+  environment:
+    SSH_KEY:
+      from_secret: git-ssh-key
+  commands:
+  - apk add git openssh-client
+  - mkdir ~/.ssh
+  - echo $SSH_KEY | base64 -d > ~/.ssh/id_ed25519 && chmod 600 ~/.ssh/id_ed25519
+  - ssh-keyscan git.zanelab.com >> ~/.ssh/known_hosts
+  - git clone --depth=1 git@git.zanelab.com:ops/homelab.git
+  - cd homelab/apps/site && sed 's/tag: .*[0-9]/tag: ${DRONE_BUILD_NUMBER}/g' values.yaml
+  - git config --global user.email "zmhala@gmail.com" && git config --global user.name "zhala"
+  - git add . && git commit -m "Update site tag" && git push origin master
+  when:
+    branch: master
+    event:
+      - push
