@@ -2,6 +2,18 @@ kind: pipeline
 type: kubernetes
 name: default
 
+services:
+  - name: docker
+    image: docker:dind
+    privileged: true
+    volumes:
+      - name: dockersock
+        path: /var/run
+
+volumes:
+  - name: dockersock
+    temp: {}
+
 steps:
 - name: submodules
   image: alpine/git
@@ -23,6 +35,17 @@ steps:
     tags: 
       - ${DRONE_BUILD_NUMBER}
       - latest
+
+- name: test-image
+  image: docker:dind
+  volumes:
+  - name: dockersock
+    path: /var/run
+  commands:
+  - docker run -d -p 80:80 registry.zanelab.com/zhala/site:${DRONE_BUILD_NUMBER}
+  - apk add curl
+  - curl --fail -LI 0.0.0.0:80 -o /dev/null -w '%{http_code}\n' -s > /dev/null
+  - curl --fail -LI 0.0.0.0:80/test -o /dev/null -w '%{http_code}\n' -s > /dev/null
 
 - name: upload-helm-chart
   image: alpine
