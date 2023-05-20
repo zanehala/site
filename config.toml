@@ -2,6 +2,7 @@ baseURL = 'https://site.zanelab.com/'
 languageCode = 'en-us'
 title = "Zane's Lab"
 theme = "PaperMod"
+googleAnalytics = 'G-PTTW8P24PG'
 
 [params]
 defaultTheme = "auto"
