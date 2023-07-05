@@ -81,3 +81,9 @@ steps:
       - master
     event:
       - push
+
+trigger:
+  event:
+  - cron
+  cron:
+  - weekly
