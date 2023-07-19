@@ -81,12 +81,3 @@ steps:
       - master
     event:
       - push
-
-trigger:
-  event:
-   include:
-    - push
-    - pull_request
-    - cron
-  cron:
-  - weekly
