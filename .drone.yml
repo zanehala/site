@@ -85,5 +85,7 @@ steps:
 trigger:
   event:
   - cron
+  - push
+  - pull_request
   cron:
   - weekly
