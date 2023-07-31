@@ -71,7 +71,7 @@ steps:
   - mkdir ~/.ssh
   - echo $SSH_KEY | base64 -d > ~/.ssh/id_ed25519 && chmod 600 ~/.ssh/id_ed25519
   - ssh-keyscan git.zanelab.com >> ~/.ssh/known_hosts
-  - ssh -vT git@git.zanelab.com
+  - ssh -vT -o StrictHostKeyChecking=no git@git.zanelab.com
   - git clone --depth=1 git@git.zanelab.com:zhala/homelab.git
   - | 
     cd homelab/apps/site && sed -i 's/tag: .*[0-9]/tag: ${DRONE_BUILD_NUMBER}/g' values.yaml
