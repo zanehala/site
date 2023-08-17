@@ -15,6 +15,7 @@
       "groupName": "all non-major dependencies",
       "groupSlug": "all-minor-patch",
       "ignorePaths": ["helm/**"],
+      "excludeDepNames": ["helm-values"],
     },
   ],
   "ignoreDeps": ["helm-values"]
