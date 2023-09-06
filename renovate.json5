@@ -3,6 +3,7 @@
   "extends": [
     "config:base"
   ],
+  "enabledManagers": ["pip"],
   "packageRules": [
     {
       "matchPackagePatterns": [
