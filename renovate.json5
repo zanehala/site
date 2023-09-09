@@ -3,6 +3,7 @@
   "extends": [
     "config:base"
   ],
+  "enabledManagers": ["pip_requirements"],
   "packageRules": [
     {
       "matchPackagePatterns": [
@@ -13,7 +14,10 @@
         "patch"
       ],
       "groupName": "all non-major dependencies",
-      "groupSlug": "all-minor-patch"
-    }
-  ]
+      "groupSlug": "all-minor-patch",
+      "ignorePaths": ["helm/**"],
+      "excludeDepNames": ["helm-values"],
+    },
+  ],
+  "ignoreDeps": ["helm-values"]
 }
