@@ -1,6 +1,6 @@
 ---
 title: "Chinese Road Bike Update"
-date: 2023-9-12
+date: 2023-09-12
 draft: false
 ---
 
