@@ -1,4 +1,4 @@
-flask==2.3.3
+flask==3.0.0
 gunicorn==21.2.0
 whitenoise==6.5.0
 prometheus_client
