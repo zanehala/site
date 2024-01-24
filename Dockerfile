@@ -11,6 +11,8 @@ FROM alpine:latest as run
 
 COPY --from=build /build/wheels .
 RUN apk add --no-cache python3 py3-pip && \
+    python3 -m venv .run && \
+    source .run/bin/activate && \
     pip3 install --no-index *.whl && \
     mkdir /public
 COPY main.py wsgi.py config.py ./
