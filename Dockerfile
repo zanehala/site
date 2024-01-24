@@ -22,4 +22,4 @@ RUN chmod 777 -R /public
 ENV PROMETHEUS_MULTIPROC_DIR /tmp
 ENV prometheus_multiproc_dir /tmp
 
-CMD gunicorn -c config.py --bind=0.0.0.0:80 --log-level debug -w 4 wsgi:app
+CMD source .run/bin/activate && gunicorn -c config.py --bind=0.0.0.0:80 --log-level debug -w 4 wsgi:app
