@@ -14,5 +14,14 @@ url = "/about/"
 weight = 10
 
 [[menu.main]]
+identifier = "gravel map"
+name = "Gravel Map"
+url = "/gravel-map/"
+weight = 10
+
+[[menu.main]]
 name = "github"
 url = "https://github.com/zanehala"
+
+[markup.goldmark.renderer]
+ unsafe = true

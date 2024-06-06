@@ -1,14 +1,16 @@
 ---
 title: "Monitoring Water Usage With Radio, Prometheus, and Grafana"
-date: 2024-5-31
+date: 2024-05-31
 draft: false
 ---
 
 A few months ago I got a water bill that was suspiciously high. I assumed I had a leak so I went to my water meter to check the low flow indicator (the small dial on most water meters) to see if it was moving.
 It didn't move at all, but while I was there I noticed my water meter had a small gray box with an FCC ID on top. I threw that into google and came across a project, [rtlamr](https://github.com/bemasher/rtlamr), to receive and decode messages sent by consumption meters
-and I happened to have a compatible meter. I also already happened to have a cheap RTL-SDR (Realtek Software Defined Radio) dongle from a few years ago. At this point I had everything I needed to begin receiving and decoding the messages sent by my water meter.
+and I happened to have a compatible meter. 
+
+I also already happened to have a cheap RTL-SDR (Realtek Software Defined Radio) dongle from a few years ago. At this point I had everything I needed to begin receiving and decoding the messages sent by my water meter.
 I was just missing one thing, the ability to track water usage over time. The first thing that came to mind was to use [Prometheus](https://prometheus.io/), a high fairly high performance and efficient time-series database for metrics. I have that set up in my home
-Kubernetes cluster already so that seemed like a natural choice. I just needed something to translate the JSON output from rtlamr to Prometheus format and set up a scrape configuration to tell Prometheus to begin collecting these metrics.
+Kubernetes cluster already so that seemed like a natural choice. I just needed something to translate the JSON output from rtlamr to the Prometheus metrics format and set up a scrape configuration to tell Prometheus to begin collecting these metrics. I also run [Grafana](https://grafana.com/), a very popular open-source graphing (and more) tool to produce nice looking charts and graphs of the data. 
 
 I wrote a small program [rtlamr-exporter](https://github.com/zanehala/rtlamr-exporter) to do just that. It simply reads the output of rtlamr over `stdin` and runs a small web server that emits the Prometheus metrics.
 ```bash
